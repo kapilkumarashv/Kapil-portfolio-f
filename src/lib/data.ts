@@ -8,7 +8,7 @@ export const portfolioData = {
     phone: "+91-9345735163",
     email: "kapilkumarashv@gmail.com",
     github: "https://github.com/kapilkumarashv",
-    linkedin: "https://linkedin.com/in/KAPIL-KUMARASH-V",
+    linkedin: "https://www.linkedin.com/in/kapil-kumarash-v-7155772ab?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     location: "Coimbatore, Tamil Nadu",
   },
 
