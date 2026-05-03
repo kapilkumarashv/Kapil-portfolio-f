@@ -80,8 +80,8 @@ export default function ContactSection() {
             className="font-body text-lg leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
-            Ready to build something exceptional? Whether it's a mobile app,
-            a web platform, or an AI-powered product — let's talk.
+            Ready to build something exceptional? Whether it&apos;s a mobile app,
+            a web platform, or an AI-powered product — let&apos;s talk.
           </p>
 
           <div className="space-y-4">

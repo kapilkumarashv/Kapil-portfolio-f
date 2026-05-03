@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
 import { portfolioData } from "@/lib/data";
+import Image from "next/image";
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -105,9 +106,11 @@ export default function HeroSection() {
             transition={{ duration: 4, repeat: Infinity }}
             className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[var(--accent-gold)] z-10"
           >
-            <img 
+            <Image 
               src="/assets/Kapil-Kumarash-v-Portfolio-image.jpeg" 
               alt={portfolioData.personal.name}
+              width={160}
+              height={160}
               className="w-full h-full object-cover grayscale-[10%] md:grayscale-[40%] md:group-hover:grayscale-0 transition-all duration-700"
             />
           </motion.div>
