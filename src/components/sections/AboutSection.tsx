@@ -15,7 +15,6 @@ const stats = [
 
 export default function AboutSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <SectionWrapper
@@ -29,7 +28,8 @@ export default function AboutSection() {
         <div className="space-y-8">
           <motion.p
             initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ delay: 0.2, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
             className="text-lg leading-relaxed font-body"
             style={{ color: "var(--text-secondary)" }}
@@ -40,7 +40,8 @@ export default function AboutSection() {
           {/* Info pills */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ delay: 0.4, duration: 0.8 }}
               className="flex flex-wrap gap-3"
             >
@@ -70,7 +71,8 @@ export default function AboutSection() {
           {/* Education quick view */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ delay: 0.6, duration: 0.8 }}
             className="space-y-3"
           >
@@ -103,11 +105,10 @@ export default function AboutSection() {
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ delay: 0.2 + i * 0.1, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-              whileHover={{ scale: 1.04, borderColor: "var(--accent-gold)" }}
-              whileInView={{ boxShadow: ["0 0 0px var(--accent-gold)", "0 0 20px rgba(201,168,76,0.2)", "0 0 0px var(--accent-gold)"] }}
-              viewport={{ once: false, amount: 0.3 }}
+              whileHover={{ scale: 1.04, borderColor: "var(--accent-gold)", boxShadow: "0 10px 40px rgba(212,175,55,0.2)" }}
               className="p-8 rounded-2xl border flex flex-col items-center justify-center text-center card-hover"
               style={{ background: "var(--card)", borderColor: "var(--border)" }}
             >
@@ -123,7 +124,8 @@ export default function AboutSection() {
           {/* Published paper card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ delay: 0.6, duration: 0.6 }}
             className="col-span-2 p-6 rounded-2xl border relative overflow-hidden"
             style={{
@@ -131,7 +133,7 @@ export default function AboutSection() {
               borderColor: "rgba(201,168,76,0.3)",
             }}
           >
-            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: "var(--accent-cyan)" }}>
+            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: "var(--accent-gold)" }}>
               Published Research
             </span>
             <p className="font-heading font-semibold mt-2" style={{ color: "var(--text-primary)" }}>

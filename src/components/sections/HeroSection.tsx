@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
+import { ChevronDown, Github, Linkedin } from "lucide-react";
 import { portfolioData } from "@/lib/data";
 import Image from "next/image";
 
@@ -13,25 +13,13 @@ export default function HeroSection() {
   const y2 = useTransform(scrollY, [0, 600], [0, -60]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
-  const charVariants = {
-    hidden: { y: "100%", opacity: 0 },
-    visible: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: 0.8 + i * 0.05,
-        duration: 0.8,
-        ease: [0.23, 1, 0.32, 1],
-      },
-    }),
-  };
 
   const name = portfolioData.personal.name;
 
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen pt-20 flex flex-col items-center justify-center overflow-hidden scanlines"
+      className="relative min-h-screen pt-20 pb-12 flex flex-col items-center justify-center overflow-hidden scanlines"
       style={{ background: "transparent" }}
     >
       {/* Glow orbs - specific to hero focus */}
@@ -50,7 +38,7 @@ export default function HeroSection() {
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         style={{
           background:
-            "radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%)",
         }}
       />
 
@@ -60,13 +48,13 @@ export default function HeroSection() {
         className="relative z-10 text-center px-6 max-w-6xl mx-auto"
       >
         {/* Profile Image & Badge Container */}
-        <div className="flex flex-col items-center mb-8 mt-12">
+        <div className="flex flex-col items-center mb-6 mt-4">
           {/* Profile Image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-            className="relative group mb-8"
+            className="relative group mb-6"
           >
             {/* Animated Glow Rings */}
             <motion.div
@@ -132,7 +120,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono tracking-widest border"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-mono tracking-[0.3em] border"
             style={{
               background: "rgba(201,168,76,0.08)",
               borderColor: "rgba(201,168,76,0.3)",
@@ -147,30 +135,32 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Name — character by character */}
-        <div className="overflow-hidden mb-4">
-          <h1 className="font-display text-[clamp(48px,10vw,130px)] leading-none tracking-wider">
-            {name.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={charVariants}
-                initial="hidden"
-                animate="visible"
-                className="inline-block"
-                style={{
-                  color:
-                    char === " "
-                      ? "transparent"
-                      : i < name.indexOf(" ")
-                      ? "var(--text-primary)"
-                      : "var(--accent-gold)",
-                }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
-          </h1>
+        {/* Name — with persistent glow */}
+        <div className="mb-4">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              textShadow: [
+                "0 0 10px rgba(212,175,55,0.2)",
+                "0 0 25px rgba(212,175,55,0.6)",
+                "0 0 10px rgba(212,175,55,0.2)"
+              ]
+            }}
+            transition={{ 
+              opacity: { duration: 1, delay: 0.8 },
+              y: { duration: 1, delay: 0.8 },
+              textShadow: { 
+                duration: 3, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }
+            }}
+            className="royal-text text-[clamp(32px,7vw,90px)] leading-tight tracking-wider"
+          >
+            {name}
+          </motion.h1>
         </div>
 
         {/* Role */}
@@ -180,7 +170,7 @@ export default function HeroSection() {
           transition={{ delay: 1.4, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="mb-6"
         >
-          <span className="font-heading text-xl md:text-3xl font-light tracking-[0.2em] uppercase gradient-text-cyan">
+          <span className="font-heading text-lg md:text-2xl font-light tracking-[0.3em] uppercase gradient-text-gold">
             {portfolioData.personal.role}
           </span>
         </motion.div>
@@ -190,7 +180,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.7, duration: 1 }}
-          className="font-mono text-sm md:text-base tracking-widest mb-12"
+          className="font-mono text-xs md:text-sm tracking-[0.2em] mb-10"
           style={{ color: "var(--text-muted)" }}
         >
           {portfolioData.personal.tagline}
@@ -201,7 +191,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2, duration: 0.8 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
         >
           <motion.a
             whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(201,168,76,0.4)" }}
@@ -243,24 +233,25 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 0.8 }}
-          className="flex items-center justify-center gap-6"
+          className="flex items-center justify-center gap-6 mb-8"
         >
           {[
             { icon: Github, href: portfolioData.personal.github, label: "GitHub" },
             { icon: Linkedin, href: portfolioData.personal.linkedin, label: "LinkedIn" },
-            { icon: Mail, href: `mailto:${portfolioData.personal.email}`, label: "Email" },
           ].map(({ icon: Icon, href, label }) => (
             <motion.a
               key={label}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -4, color: "var(--accent-gold)" }}
-              className="flex flex-col items-center gap-1 transition-colors duration-300"
-              style={{ color: "var(--text-muted)" }}
+              whileHover={{ y: -4, opacity: 0.8 }}
+              className="flex flex-col items-center gap-2 transition-all duration-300"
+              style={{ color: "var(--accent-gold)" }}
             >
-              <Icon size={20} />
-              <span className="font-mono text-[10px] tracking-widest">{label}</span>
+              <div className="p-2 rounded-full border border-[rgba(201,168,76,0.2)] hover:border-[rgba(201,168,76,0.5)] transition-colors">
+                <Icon size={22} />
+              </div>
+              <span className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-80">{label}</span>
             </motion.a>
           ))}
         </motion.div>

@@ -22,7 +22,6 @@ export default function SectionWrapper({
   titleAccent,
 }: SectionWrapperProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section
@@ -34,7 +33,8 @@ export default function SectionWrapper({
         {(label || title) && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.1 }}
             transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
             className="mb-16"
           >
@@ -47,8 +47,7 @@ export default function SectionWrapper({
               </span>
             )}
             {title && (
-              <h2 className="font-display text-5xl md:text-7xl tracking-wide"
-                style={{ color: "var(--text-primary)" }}>
+              <h2 className="royal-text text-5xl md:text-7xl tracking-wide">
                 {title}
                 {titleAccent && (
                   <span className="gradient-text-gold"> {titleAccent}</span>

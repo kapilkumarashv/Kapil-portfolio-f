@@ -8,27 +8,27 @@ import { Award } from "lucide-react";
 
 export default function CertificationsSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <SectionWrapper id="certifications" label="// 007" title="CERTIFI" titleAccent="CATIONS">
+    <SectionWrapper id="certifications" label="// 006" title="CERTIFI" titleAccent="CATIONS">
       <div ref={ref}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {portfolioData.certifications.map((cert, i) => (
             <motion.div
               key={cert.name}
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ 
+                opacity: 1, 
+                y: 0,
+                borderColor: ["var(--border)", "rgba(201,168,76,0.4)", "var(--border)"],
+                scale: [1, 1.02, 1]
+              }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ delay: i * 0.06 }}
               whileHover={{
                 y: -4,
                 borderColor: "rgba(201,168,76,0.5)",
               }}
-              whileInView={{
-                borderColor: ["var(--border)", "rgba(201,168,76,0.4)", "var(--border)"],
-                scale: [1, 1.02, 1]
-              }}
-              viewport={{ once: false, amount: 0.8 }}
               className="group p-5 rounded-xl border flex items-start gap-4 transition-all duration-300"
               style={{ background: "var(--card)", borderColor: "var(--border)" }}
             >

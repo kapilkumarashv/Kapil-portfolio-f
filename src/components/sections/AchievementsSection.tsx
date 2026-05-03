@@ -1,46 +1,81 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { portfolioData } from "@/lib/data";
 import SectionWrapper from "@/components/ui/SectionWrapper";
+import { Trophy, Medal, Award, Code, Zap } from "lucide-react";
+
+const getIcon = (iconStr: string) => {
+  switch (iconStr) {
+    case "🏆": return <Trophy size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    case "🥇": return <Medal size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    case "🥈": return <Medal size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    case "🥉": return <Medal size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    case "🏅": return <Award size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    case "💻": return <Code size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    case "⚡": return <Zap size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+    default: return <Award size={24} className="text-[var(--accent-gold)] group-hover:scale-110 transition-transform" />;
+  }
+};
 
 export default function AchievementsSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <SectionWrapper id="achievements" label="// 006" title="HALL OF" titleAccent="FAME">
+    <SectionWrapper id="achievements" label="// 005" title="HALL OF" titleAccent="FAME">
       <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {portfolioData.achievements.map((ach, i) => (
           <motion.div
             key={ach.title}
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-            transition={{ delay: i * 0.08, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+            initial={{ 
+              opacity: 0, 
+              x: i % 2 === 0 ? -20 : 20,
+              borderColor: "rgba(255,255,255,0.1)", // Fallback for var(--border)
+              boxShadow: "0 0px 0px rgba(0,0,0,0)"
+            }}
+            whileInView={{ 
+              opacity: 1, 
+              x: 0, 
+            }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 80,
+              damping: 15,
+              delay: i * 0.05
+            }}
             whileHover={{
               y: -6,
               borderColor: "var(--accent-gold)",
               boxShadow: "0 20px 50px rgba(201,168,76,0.15)",
             }}
-            whileInView={{
-              borderColor: ["var(--border)", "var(--accent-gold)", "var(--border)"],
-            }}
-            viewport={{ once: false, amount: 0.8 }}
-            className="relative flex items-center gap-5 p-6 rounded-2xl border overflow-hidden transition-all duration-400 group"
+            className="relative flex items-center gap-5 p-6 rounded-2xl border overflow-hidden transition-all duration-300 group"
             style={{ background: "var(--card)", borderColor: "var(--border)" }}
           >
+            {/* Border Blink Effect */}
+            <motion.div
+              className="absolute inset-0 rounded-2xl pointer-events-none z-20"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: [0, 1, 0] }}
+              viewport={{ once: false }}
+              transition={{ delay: i * 0.05 + 0.3, duration: 0.8 }}
+              style={{ border: "2px solid var(--accent-gold)" }}
+            />
             {/* Background glow */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               style={{ background: "radial-gradient(circle at 10% 50%, rgba(201,168,76,0.06) 0%, transparent 70%)" }}
             />
 
-            {/* Icon */}
+            {/* Icon wrapper */}
             <div
-              className="w-14 h-14 flex items-center justify-center rounded-2xl text-2xl flex-shrink-0"
-              style={{ background: "var(--surface)" }}
+              className="w-14 h-14 flex items-center justify-center rounded-2xl flex-shrink-0 relative z-10 transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(201,168,76,0.3)]"
+              style={{ 
+                background: "rgba(201,168,76,0.1)",
+                border: "1px solid rgba(201,168,76,0.2)" 
+              }}
             >
-              {ach.icon}
+              {getIcon(ach.icon)}
             </div>
 
             <div className="flex-1 min-w-0">
@@ -53,14 +88,8 @@ export default function AchievementsSection() {
               <span
                 className="font-mono text-xs mt-1 inline-block px-2 py-0.5 rounded-full"
                 style={{
-                  background:
-                    ach.level === "National"
-                      ? "rgba(201,168,76,0.15)"
-                      : "rgba(0,212,255,0.1)",
-                  color:
-                    ach.level === "National"
-                      ? "var(--accent-gold)"
-                      : "var(--accent-cyan)",
+                  background: "rgba(201,168,76,0.15)",
+                  color: "var(--accent-gold)",
                 }}
               >
                 {ach.level}
@@ -83,12 +112,13 @@ export default function AchievementsSection() {
       {/* Coding platforms banner */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false }}
         transition={{ delay: 0.8 }}
         className="mt-8 p-8 rounded-3xl border relative overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(0,212,255,0.05) 100%)",
-          borderColor: "rgba(201,168,76,0.25)",
+          background: "linear-gradient(135deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.02) 100%)",
+          borderColor: "rgba(201,168,76,0.3)",
         }}
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">

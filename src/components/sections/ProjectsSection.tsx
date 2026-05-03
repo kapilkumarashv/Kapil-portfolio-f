@@ -14,7 +14,6 @@ export default function ProjectsSection() {
     (typeof portfolioData.projects)[0] | null
   >(null);
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const filtered =
     activeCategory === "All"
@@ -27,7 +26,8 @@ export default function ProjectsSection() {
         {/* Filter tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.1 }}
           transition={{ delay: 0.2 }}
           className="flex flex-wrap gap-3 mb-12"
         >
@@ -61,12 +61,22 @@ export default function ProjectsSection() {
           ))}
         </motion.div>
 
+        {/* Animated Divider Line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 1.5, ease: [0.23, 1, 0.32, 1] }}
+          className="h-px w-full mb-12 origin-left"
+          style={{ background: "linear-gradient(90deg, var(--accent-gold), transparent)" }}
+        />
+
         {/* Projects grid */}
         <motion.div
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {filtered.map((project, i) => (
               <motion.div
                 key={project.title}
@@ -74,14 +84,14 @@ export default function ProjectsSection() {
                 initial={{ opacity: 0, scale: 0.9, boxShadow: "inset 0 0 0 0 transparent" }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileInView={{ 
-                  boxShadow: `inset 0 2px 0 0 ${project.color}`,
+                  boxShadow: `inset 0 2px 0 0 var(--accent-gold)`,
                   transition: { delay: 0.5, duration: 0.8 }
                 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: i * 0.05, duration: 0.4 }}
-                whileHover={{ y: -8 }}
+                whileHover={{ y: -10, scale: 1.02, borderColor: "var(--accent-gold)" }}
                 onClick={() => setSelectedProject(project)}
-                className="group relative p-6 rounded-2xl border overflow-hidden transition-all duration-400"
+                className="group relative p-6 rounded-2xl border overflow-hidden cursor-pointer"
                 style={{
                   background: "var(--card)",
                   borderColor: "var(--border)",
@@ -101,7 +111,7 @@ export default function ProjectsSection() {
                   whileInView="view"
                   viewport={{ once: false, amount: 0.2 }}
                   style={{
-                    background: `radial-gradient(circle at 50% 0%, ${project.color}15 0%, transparent 60%)`,
+                    background: `radial-gradient(circle at 50% 0%, rgba(212,175,55,0.1) 0%, transparent 60%)`,
                   }}
                 />
 
@@ -111,8 +121,8 @@ export default function ProjectsSection() {
                     <span
                       className="text-xs font-mono tracking-widest uppercase px-3 py-1 rounded-full"
                       style={{
-                        background: `${project.color}15`,
-                        color: project.color,
+                        background: "rgba(212,175,55,0.1)",
+                        color: "var(--accent-gold)",
                       }}
                     >
                       {project.category}
@@ -132,8 +142,8 @@ export default function ProjectsSection() {
 
                   {/* Title */}
                   <h3
-                    className="font-display text-2xl tracking-wide mb-1 group-hover:gradient-text-gold transition-all duration-300"
-                    style={{ color: "var(--text-primary)" }}
+                    className="font-heading font-semibold text-2xl tracking-wide mb-1 transition-all duration-300"
+                    style={{ color: "var(--accent-gold)" }}
                   >
                     {project.title}
                   </h3>
@@ -178,7 +188,7 @@ export default function ProjectsSection() {
                     whileHover="hover"
                     whileInView="view"
                     viewport={{ once: false, amount: 0.2 }}
-                    style={{ color: project.color }}
+                    style={{ color: "var(--accent-gold)" }}
                   >
                     View Details <ChevronRight size={12} />
                   </motion.div>
@@ -212,12 +222,12 @@ export default function ProjectsSection() {
               {/* Top bar */}
               <div
                 className="h-1"
-                style={{ background: selectedProject.color }}
+                style={{ background: "var(--accent-gold)" }}
               />
               <div className="p-8">
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 right-6 w-8 h-8 rounded-full flex items-center justify-center border transition-colors hover:border-red-400"
+                  className="absolute top-6 right-6 w-8 h-8 rounded-full flex items-center justify-center border transition-colors hover:border-amber-400"
                   style={{
                     background: "var(--surface)",
                     borderColor: "var(--border)",
@@ -230,16 +240,16 @@ export default function ProjectsSection() {
                 <span
                   className="font-mono text-xs tracking-widest uppercase px-3 py-1 rounded-full inline-block mb-4"
                   style={{
-                    background: `${selectedProject.color}15`,
-                    color: selectedProject.color,
+                    background: "rgba(212,175,55,0.1)",
+                    color: "var(--accent-gold)",
                   }}
                 >
                   {selectedProject.category}
                 </span>
 
                 <h2
-                  className="font-display text-4xl tracking-wide mb-1"
-                  style={{ color: "var(--text-primary)" }}
+                  className="font-heading font-bold text-4xl tracking-wide mb-1"
+                  style={{ color: "var(--accent-gold)" }}
                 >
                   {selectedProject.title}
                 </h2>

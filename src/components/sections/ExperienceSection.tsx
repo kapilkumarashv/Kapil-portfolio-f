@@ -8,7 +8,6 @@ import { Briefcase } from "lucide-react";
 
 export default function ExperienceSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <SectionWrapper id="experience" label="// 004" title="WORK" titleAccent="EXPERIENCE">
@@ -24,8 +23,9 @@ export default function ExperienceSection() {
             <motion.div
               key={internship.company}
               initial={{ opacity: 0, x: -40 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: i * 0.15, duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.1 }}
+              transition={{ delay: i * 0.2, duration: 1.0, ease: [0.34, 1.56, 0.64, 1] }}
               className="relative md:pl-16"
             >
               {/* Timeline dot */}
@@ -81,9 +81,9 @@ export default function ExperienceSection() {
                   <span
                     className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono border self-start"
                     style={{
-                      background: "rgba(0,212,255,0.08)",
-                      borderColor: "rgba(0,212,255,0.2)",
-                      color: "var(--accent-cyan)",
+                      background: "rgba(212,175,55,0.08)",
+                      borderColor: "rgba(212,175,55,0.2)",
+                      color: "var(--accent-gold)",
                     }}
                   >
                     Internship
@@ -116,7 +116,6 @@ export default function ExperienceSection() {
             </motion.div>
           ))}
         </div>
-
       </div>
     </SectionWrapper>
   );

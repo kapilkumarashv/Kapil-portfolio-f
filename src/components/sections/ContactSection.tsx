@@ -10,7 +10,6 @@ type Status = "idle" | "sending" | "success" | "error";
 
 export default function ContactSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [status, setStatus] = useState<Status>("idle");
   const [form, setForm] = useState({
     name: "",
@@ -67,12 +66,13 @@ export default function ContactSection() {
   });
 
   return (
-    <SectionWrapper id="contact" label="// 008" title="GET IN" titleAccent="TOUCH">
+    <SectionWrapper id="contact" label="// 007" title="GET IN" titleAccent="TOUCH">
       <div ref={ref} className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
         {/* Left: Info */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
           className="lg:col-span-2 space-y-8"
         >
@@ -80,8 +80,8 @@ export default function ContactSection() {
             className="font-body text-lg leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
-            Ready to build something exceptional? Whether it&apos;s a mobile app,
-            a web platform, or an AI-powered product — let&apos;s talk.
+            Ready to build something exceptional? Whether it's a mobile app,
+            a web platform, or an AI-powered product — let's talk.
           </p>
 
           <div className="space-y-4">
@@ -129,14 +129,38 @@ export default function ContactSection() {
         {/* Right: Form */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
           className="lg:col-span-3"
         >
           <div
-            className="p-8 rounded-3xl border relative overflow-hidden"
-            style={{ background: "var(--card)", borderColor: "var(--border)" }}
+            className="p-8 md:p-12 rounded-3xl border-2 relative overflow-hidden group"
+            style={{ 
+              background: "var(--card)", 
+              borderColor: "var(--accent-gold)",
+              boxShadow: "0 0 40px rgba(201, 168, 76, 0.25), inset 0 0 20px rgba(201, 168, 76, 0.1)"
+            }}
           >
+            {/* Shimmer Shine Effect */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none z-0"
+              animate={{
+                x: ["-100%", "200%"],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "linear",
+                repeatDelay: 1,
+              }}
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.1), transparent)",
+                width: "50%",
+                skewX: "-20deg",
+              }}
+            />
+
             {/* Ambient glow */}
             <div
               className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"

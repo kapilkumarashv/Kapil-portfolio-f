@@ -9,9 +9,20 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative py-16 px-6 border-t"
-      style={{ borderColor: "var(--border)", background: "var(--surface)" }}
+      className="relative py-20 px-6 border-t-4"
+      style={{ 
+        borderColor: "var(--accent-gold)", 
+        background: "var(--surface)",
+        boxShadow: "0 -15px 50px rgba(201, 168, 76, 0.2)"
+      }}
     >
+      {/* Footer Shine Line */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-1 z-10"
+        style={{ background: "linear-gradient(90deg, transparent, #fff, transparent)", opacity: 0.3 }}
+        animate={{ x: ["-100%", "100%"] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      />
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Name */}
